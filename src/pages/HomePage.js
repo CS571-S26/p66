@@ -1,23 +1,13 @@
-import { Container, Row, Col } from "react-bootstrap";
-import MenuItemCard from "../components/MenuItemCard";
+import { Container } from "react-bootstrap";
+import HeroSection from "../components/HeroSection";
+import MenuList from "../components/MenuList";
 
-function HomePage({ addToCart }) {
-    const menu = [
-        { name: "Americano", price: 4 },
-        { name: "Latte", price: 5 },
-        { name: "Croissant", price: 6 }
-    ];
-
+function HomePage({ menuItems, addToCart }) {
     return (
         <Container className="mt-4">
-            <h2 className="mb-4">Cafe Menu</h2>
-            <Row>
-                {menu.map(item => (
-                    <Col md={4} key={item.name}>
-                        <MenuItemCard item={item} addToCart={addToCart} />
-                    </Col>
-                ))}
-            </Row>
+        <HeroSection />
+        <h2 className="mb-4">Cafe Menu</h2>
+        <MenuList menuItems={menuItems} addToCart={addToCart} />
         </Container>
     );
 }

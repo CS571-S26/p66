@@ -1,31 +1,43 @@
-import { Container } from "react-bootstrap";
+import { Container, Alert, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import CartSummary from "../components/CartSummary";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import CouponSection from "../components/CouponSection";
 
-function CartPage({ cart }) {
+function CartPage({
+    cart,
+    coupon,
+    setCoupon,
+    increaseQuantity,
+    decreaseQuantity,
+    removeItem
+}) {
     return (
         <Container className="mt-4">
-            <h2>Your Cart</h2>
+            <h1>Your Cart</h1>
 
             {cart.length === 0 ? (
-                <p>Your cart is empty.</p>
+                <Alert variant="warning">Your cart is empty.</Alert>
             ) : (
-                cart.map(item => (
-                    <CartItem key={item.name} item={item} />
-                ))
-            )}
+                <>
+                    {cart.map(item => (
+                        <CartItem
+                            key={item.id}
+                            item={item}
+                            increaseQuantity={increaseQuantity}
+                            decreaseQuantity={decreaseQuantity}
+                            removeItem={removeItem}
+                        />
+                    ))}
 
-            <CartSummary cart={cart} />
-            <Button
-                as={Link}
-                to="/checkout"
-                variant="success"
-                className="mt-3"
-            >
-                Proceed to Checkout
-            </Button>
+                    <CouponSection coupon={coupon} setCoupon={setCoupon} />
+                    <CartSummary cart={cart} coupon={coupon} />
+
+                    <Button as={Link} to="/checkout" variant="success">
+                        Continue to Checkout
+                    </Button>
+                </>
+            )}
         </Container>
     );
 }

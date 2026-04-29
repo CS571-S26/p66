@@ -1,33 +1,29 @@
-import { Container, Button, Form } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
+import CheckoutForm from "../components/CheckoutForm";
+import OrderConfirmation from "../components/OrderConfirmation";
+import OrderStatus from "../components/OrderStatus";
 
-function CheckoutPage({ setCart }) {
+function CheckoutPage({ cart, coupon, latestOrder, placeOrder }) {
     return (
         <Container className="mt-4">
-            <h2>Checkout</h2>
+            <h1>Checkout</h1>
 
-            <p>Please enter your information to complete the order.</p>
+            {latestOrder && (
+                <>
+                    <OrderConfirmation order={latestOrder} />
+                    <OrderStatus status={latestOrder.status} />
+                </>
+            )}
 
-            <Form>
-                <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter your name" />
-                </Form.Group>
+            {!latestOrder && cart.length === 0 && (
+                <Alert variant="warning">
+                    Your cart is empty. Please add items before checking out.
+                </Alert>
+            )}
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control type="text" placeholder="Enter your address" />
-                </Form.Group>
-
-                <Button
-                    variant="success"
-                    onClick={() => {
-                        alert("Order placed successfully!");
-                        setCart([]);
-                    }}
-                >
-                    Place Order
-                </Button>
-            </Form>
+            {cart.length > 0 && (
+                <CheckoutForm cart={cart} coupon={coupon} placeOrder={placeOrder} />
+            )}
         </Container>
     );
 }
